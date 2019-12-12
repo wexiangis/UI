@@ -26,15 +26,26 @@ INC += -I$(ROOT)/libs/include/freetype2
 LIB += -L$(ROOT)/libs/lib
 LIB += -lpthread -lm -lfreetype -lpng
 
-obj += ${patsubst %.cpp,$(OBJ)/%-api.o,${notdir ${wildcard $(ROOT)/api/*.cpp}}}
-obj += ${patsubst %.cpp,$(OBJ)/%-src.o,${notdir ${wildcard $(ROOT)/src/*.cpp}}}
-obj += ${patsubst %.cpp,$(OBJ)/%-libs.o,${notdir ${wildcard $(ROOT)/libs-src/*.cpp}}}
+obj += ${patsubst %.cpp,$(OBJ)/%-api-p.o,${notdir ${wildcard $(ROOT)/api/*.cpp}}}
+obj += ${patsubst %.cpp,$(OBJ)/%-src-p.o,${notdir ${wildcard $(ROOT)/src/*.cpp}}}
+obj += ${patsubst %.cpp,$(OBJ)/%-libs-p.o,${notdir ${wildcard $(ROOT)/libs-src/*.cpp}}}
 
-%-api.o:../api/%.cpp
+obj += ${patsubst %.c,$(OBJ)/%-api-c.o,${notdir ${wildcard $(ROOT)/api/*.c}}}
+obj += ${patsubst %.c,$(OBJ)/%-src-c.o,${notdir ${wildcard $(ROOT)/src/*.c}}}
+obj += ${patsubst %.c,$(OBJ)/%-libs-c.o,${notdir ${wildcard $(ROOT)/libs-src/*.c}}}
+
+%-api-p.o:../api/%.cpp
 	$(CPP) -O3 -Wall -c $< $(INC) $(LIB) -o $@
-%-src.o:../src/%.cpp
+%-src-p.o:../src/%.cpp
 	$(CPP) -O3 -Wall -c $< $(INC) $(LIB) -o $@
-%-libs.o:../libs-src/%.cpp
+%-libs-p.o:../libs-src/%.cpp
+	$(CPP) -O3 -Wall -c $< $(INC) $(LIB) -o $@
+
+%-api-c.o:../api/%.c
+	$(CPP) -O3 -Wall -c $< $(INC) $(LIB) -o $@
+%-src-c.o:../src/%.c
+	$(CPP) -O3 -Wall -c $< $(INC) $(LIB) -o $@
+%-libs-c.o:../libs-src/%.c
 	$(CPP) -O3 -Wall -c $< $(INC) $(LIB) -o $@
 
 app:$(obj)
