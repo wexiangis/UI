@@ -4,7 +4,7 @@
 
 #if(mode == 1) //viewValue 测试
 
-#include "viewValue.h"
+#include "viewType.h"
 
 int main(void)
 {
@@ -23,7 +23,6 @@ int main(void)
 
     viewValue_save("./ui.config", arrayWrite, i);
     viewValue_load("./ui.config", arrayWrite, i);
-    
     viewValue_save("./ui-bak.config", arrayWrite, i);
 
     return 0;

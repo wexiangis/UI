@@ -14,9 +14,6 @@ endif
 ROOT=$(shell pwd)
 LIBTOOL=$(shell which libtool)
 
-#.o文件存放路径, 方便清理
-OBJ = $(ROOT)/obj
-
 INC += -I$(ROOT)/api
 INC += -I$(ROOT)/src
 INC += -I$(ROOT)/libs-src
@@ -26,14 +23,20 @@ INC += -I$(ROOT)/libs/include/freetype2
 LIB += -L$(ROOT)/libs/lib
 LIB += -lpthread -lm -lfreetype -lpng
 
+#.o文件存放路径, 方便清理
+OBJ = $(ROOT)/obj
+
+#cpp
 obj += ${patsubst %.cpp,$(OBJ)/%-api-p.o,${notdir ${wildcard $(ROOT)/api/*.cpp}}}
 obj += ${patsubst %.cpp,$(OBJ)/%-src-p.o,${notdir ${wildcard $(ROOT)/src/*.cpp}}}
 obj += ${patsubst %.cpp,$(OBJ)/%-libs-p.o,${notdir ${wildcard $(ROOT)/libs-src/*.cpp}}}
 
+#c
 obj += ${patsubst %.c,$(OBJ)/%-api-c.o,${notdir ${wildcard $(ROOT)/api/*.c}}}
 obj += ${patsubst %.c,$(OBJ)/%-src-c.o,${notdir ${wildcard $(ROOT)/src/*.c}}}
 obj += ${patsubst %.c,$(OBJ)/%-libs-c.o,${notdir ${wildcard $(ROOT)/libs-src/*.c}}}
 
+#cpp
 %-api-p.o:../api/%.cpp
 	$(CPP) -O3 -Wall -c $< $(INC) $(LIB) -o $@
 %-src-p.o:../src/%.cpp
@@ -41,6 +44,7 @@ obj += ${patsubst %.c,$(OBJ)/%-libs-c.o,${notdir ${wildcard $(ROOT)/libs-src/*.c
 %-libs-p.o:../libs-src/%.cpp
 	$(CPP) -O3 -Wall -c $< $(INC) $(LIB) -o $@
 
+#c
 %-api-c.o:../api/%.c
 	$(CPP) -O3 -Wall -c $< $(INC) $(LIB) -o $@
 %-src-c.o:../src/%.c

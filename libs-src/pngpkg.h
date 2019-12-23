@@ -3,6 +3,10 @@
 
 #include <stdio.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct _PicData {
 	int width, height; 	//长宽
 	int bit_depth; 	   	//位深度
@@ -21,5 +25,9 @@ int png_rotationRight90(unsigned char * src, int srcW, int srcH, int channel);
 
 //返回0正常
 int png_check(FILE **fp, const char *filename);
+
+#ifdef __cplusplus
+};
+#endif
 
 #endif
